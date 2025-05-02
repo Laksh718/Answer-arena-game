@@ -1,10 +1,9 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
-import { ArrowBigLeft, Award, Trophy } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "./ui/button";
+import { ArrowBigLeft, Award, Trophy, Star, Medal, Brain } from "lucide-react";
+import { Card, CardContent } from "./ui/card";
 import { UserProfile } from "./UserProfile";
-import { getRandomProfileImage } from "@/lib/utils";
+import { Progress } from "./ui/progress";
 
 interface ResultProps {
   score: number;
@@ -12,6 +11,7 @@ interface ResultProps {
   onRestart: () => void;
   username: string;
   profilePic: string;
+  quizType?: string;
 }
 
 export const Result = ({
@@ -20,104 +20,128 @@ export const Result = ({
   onRestart,
   username,
   profilePic,
+  quizType = "Tech Quiz",
 }: ResultProps) => {
   const percentage = (score / totalQuestions) * 100;
   let message = "Phenomenal Performance!";
   let emoji = "🎯";
   let grade = "Expert";
   let icon = Trophy;
+  let gradeColor = "text-purple-600 dark:text-purple-400";
+  let gradeBg = "bg-purple-100 dark:bg-purple-900/30";
 
   if (percentage < 50) {
     message = "Keep learning, you'll improve!";
     emoji = "💪";
     grade = "Beginner";
     icon = Award;
+    gradeColor = "text-blue-600 dark:text-blue-400";
+    gradeBg = "bg-blue-100 dark:bg-blue-900/30";
   } else if (percentage < 80) {
     message = "Great progress! Keep it up!";
     emoji = "👏";
     grade = "Intermediate";
     icon = Award;
+    gradeColor = "text-green-600 dark:text-green-400";
+    gradeBg = "bg-green-100 dark:bg-green-900/30";
   }
 
-  const containerVariants = {
-    initial: { opacity: 0 },
-    animate: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3,
-      },
-    },
-  };
-
-  const itemVariants = {
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-  };
-
-  const randomBackgroundPic = `https://source.unsplash.com/random/800x400?landscape&${Date.now()}`;
-
   return (
-    <motion.div
-      variants={containerVariants}
-      initial="initial"
-      animate="animate"
-      className="flex flex-col md:flex-row gap-8 items-start justify-center p-4"
-    >
-      <motion.div variants={itemVariants} className="w-full md:w-auto">
+    <div className="flex flex-col md:flex-row gap-8 items-start justify-center p-4 w-full">
+      <div className="w-full md:w-auto">
         <UserProfile
           score={score}
           totalQuestions={totalQuestions}
           grade={grade}
           username={username}
           profilePic={profilePic}
+          quizType={quizType}
         />
-      </motion.div>
+      </div>
 
-      <motion.div variants={itemVariants} className="flex-1 max-w-md">
-        <Card className="bg-white/50 backdrop-blur-md shadow-xl border-none overflow-hidden h-full relative">
-          <div
-            className="absolute inset-0 bg-cover bg-center opacity-10"
-            style={{ backgroundImage: `url(${randomBackgroundPic})` }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-100/30 via-blue-50/20 to-indigo-100/30 rounded-lg" />
-          <CardContent className="space-y-8 p-8 relative z-10">
+      <div className="flex-1 max-w-md">
+        <Card className="bg-white dark:bg-gray-800 shadow-xl border-none overflow-hidden h-full rounded-xl">
+          <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-primary via-purple-500 to-blue-500"></div>
+          <CardContent className="space-y-8 p-8">
             <div className="text-center">
-              <div className="mb-4 flex justify-center">
-                <div className="bg-primary/10 p-4 rounded-full">
-                  {React.createElement(icon, {
-                    className: "h-12 w-12 text-primary",
-                  })}
+              <div className="mb-6 flex justify-center">
+                <div className="relative">
+                  <div className="absolute -inset-1 bg-gradient-to-r from-primary to-purple-600 rounded-full blur-sm opacity-70"></div>
+                  <div className="relative bg-white dark:bg-gray-800 p-5 rounded-full">
+                    {React.createElement(icon, {
+                      className: "h-14 w-14 text-primary",
+                    })}
+                  </div>
                 </div>
               </div>
-              <h2 className="text-4xl font-bold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+              <h2 className="text-4xl font-bold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent mb-2">
                 Quiz Complete!
               </h2>
-              <div className="mt-4 text-xl text-gray-600">
-                <p>
-                  {emoji} {message}
-                </p>
-              </div>
-
-              <div className="mt-8 bg-white/70 rounded-lg p-4">
-                <div className="text-5xl font-bold text-primary">
-                  {score}/{totalQuestions}
-                </div>
-                <div className="text-gray-500 mt-1">Final Score</div>
+              <div className="text-lg text-gray-600 dark:text-gray-300">
+                <p className="font-medium">{quizType}</p>
               </div>
             </div>
 
-            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+            <div className="flex flex-col items-center justify-center space-y-6">
+              <div className={`px-4 py-1.5 rounded-full ${gradeBg}`}>
+                <span className={`font-bold ${gradeColor}`}>{grade} Level</span>
+              </div>
+              
+              <div className="text-center">
+                <p className="text-xl font-medium text-gray-700 dark:text-gray-300">
+                  {message} {emoji}
+                </p>
+                
+                <div className="mt-8 relative">
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="text-8xl font-bold text-gray-100 dark:text-gray-800">
+                      {totalQuestions}
+                    </div>
+                  </div>
+                  <div className="relative flex items-center justify-center">
+                    <div className="text-8xl font-bold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+                      {score}
+                    </div>
+                  </div>
+                  <div className="mt-2 text-xl text-gray-500 dark:text-gray-400">
+                    out of {totalQuestions} questions
+                  </div>
+                </div>
+                
+                <div className="mt-6">
+                  <div className="flex justify-between mb-2">
+                    <span className="text-sm text-gray-500 dark:text-gray-400">Score</span>
+                    <span className="text-sm font-medium text-primary">{percentage.toFixed(0)}%</span>
+                  </div>
+                  <Progress value={percentage} className="h-2.5 bg-gray-200 dark:bg-gray-700" />
+                </div>
+              </div>
+              
+              <div className="flex justify-center space-x-2 mt-4">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star 
+                    key={i} 
+                    className={`h-5 w-5 ${i < Math.ceil(percentage / 20) ? 'text-yellow-500 fill-yellow-500' : 'text-gray-300 dark:text-gray-600'}`} 
+                  />
+                ))}
+              </div>
+            </div>
+
+            <div className="pt-6 flex flex-col space-y-3">
               <Button
                 onClick={onRestart}
-                className="w-full bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 text-white px-8 py-6 rounded-lg text-lg font-medium transition-all shadow-lg"
+                className="w-full bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 text-white py-6 rounded-xl transition-all duration-200 hover:shadow-lg"
               >
-                <ArrowBigLeft className="mr-2 h-6 w-6" /> Try Again
+                <ArrowBigLeft className="mr-2 h-5 w-5" />
+                Back to Dashboard
               </Button>
-            </motion.div>
+              <div className="text-center text-sm text-gray-500 dark:text-gray-400 mt-2">
+                Play again to improve your score!
+              </div>
+            </div>
           </CardContent>
         </Card>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 };
