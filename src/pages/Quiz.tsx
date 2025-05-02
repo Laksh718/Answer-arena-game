@@ -28,6 +28,7 @@ const Quiz = () => {
   const [score, setScore] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
   const [selectedAnswers, setSelectedAnswers] = useState<number[]>([]);
+  const [questionKey, setQuestionKey] = useState(0); // Key to force Question component re-render
   
   // Find the appropriate question set based on quiz type
   const questions = useMemo(() => {
@@ -71,21 +72,22 @@ const Quiz = () => {
       toast({
         description: "Correct answer!",
         className: "bg-green-500 text-white font-medium",
-        duration: 500,
+        duration: 2000,
       });
     } else {
       toast({
         description: "Wrong answer",
         className: "bg-red-500 text-white font-medium",
-        duration: 500,
+        duration: 2000,
       });
     }
 
-    // Move to next question or show results
+    // Move to next question or show results after delay
     if (currentQuestion < questions.length - 1) {
       setTimeout(() => {
         setCurrentQuestion(prevQuestion => prevQuestion + 1);
-      }, 500);
+        setQuestionKey(prev => prev + 1); // Force Question component re-render
+      }, 2000);
     } else {
       // This is the last question, show results
       setTimeout(() => {
@@ -113,7 +115,7 @@ const Quiz = () => {
           grade,
           quizType
         });
-      }, 500);
+      }, 2000);
     }
   };
 
@@ -152,6 +154,7 @@ const Quiz = () => {
         <div className="w-full max-w-4xl transition-all duration-300 ease-in-out">
           {!isComplete && questions.length > 0 ? (
             <Question
+              key={questionKey} // Add key to force re-render when moving to next question
               question={questions[currentQuestion]}
               onAnswer={handleAnswer}
               currentQuestion={currentQuestion + 1}

@@ -26,12 +26,8 @@ export const Question = ({ question, onAnswer, currentQuestion, totalQuestions }
     setSelectedOption(optionIndex);
     setIsAnswered(true);
     
-    // Delay sending the answer to show feedback
-    setTimeout(() => {
-      onAnswer(optionIndex);
-      setSelectedOption(null);
-      setIsAnswered(false);
-    }, 500); // Reduced from 800ms to 500ms for faster transitions
+    // Call onAnswer immediately - let the parent component handle the timing
+    onAnswer(optionIndex);
   };
   
   const getOptionClass = (optionIndex: number) => {
@@ -51,6 +47,9 @@ export const Question = ({ question, onAnswer, currentQuestion, totalQuestions }
   };
   
   const progress = (currentQuestion / totalQuestions) * 100;
+
+  // Check if the user selected a wrong answer
+  const isWrongAnswer = isAnswered && selectedOption !== null && selectedOption !== question.correctAnswer;
   
   return (
     <div className="w-full max-w-3xl mx-auto">
@@ -99,6 +98,16 @@ export const Question = ({ question, onAnswer, currentQuestion, totalQuestions }
               </div>
             ))}
           </div>
+          
+          {/* Show correct answer message when user selects a wrong answer */}
+          {isWrongAnswer && (
+            <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+              <p className="text-blue-800 dark:text-blue-300 font-medium flex items-center">
+                <CheckCircle2 className="h-5 w-5 mr-2 text-blue-500" />
+                Correct answer: {question.options[question.correctAnswer]}
+              </p>
+            </div>
+          )}
         </CardContent>
         
         <CardFooter className="pt-4 pb-6 px-6">
