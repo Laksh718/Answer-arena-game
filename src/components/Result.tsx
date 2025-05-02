@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "./ui/button";
-import { ArrowBigLeft, Award, Trophy, Star, Medal, Brain } from "lucide-react";
+import { ArrowBigLeft, Award, Trophy, Star } from "lucide-react";
 import { Card, CardContent } from "./ui/card";
 import { UserProfile } from "./UserProfile";
 import { Progress } from "./ui/progress";
@@ -61,12 +61,10 @@ export const Result = ({
 
       <div className="flex-1 max-w-md">
         <Card className="bg-white dark:bg-gray-800 shadow-xl border-none overflow-hidden h-full rounded-xl">
-          <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-primary via-purple-500 to-blue-500"></div>
           <CardContent className="space-y-8 p-8">
             <div className="text-center">
               <div className="mb-6 flex justify-center">
                 <div className="relative">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-primary to-purple-600 rounded-full blur-sm opacity-70"></div>
                   <div className="relative bg-white dark:bg-gray-800 p-5 rounded-full">
                     {React.createElement(icon, {
                       className: "h-14 w-14 text-primary",
@@ -74,7 +72,7 @@ export const Result = ({
                   </div>
                 </div>
               </div>
-              <h2 className="text-4xl font-bold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent mb-2">
+              <h2 className="text-4xl font-bold text-primary mb-2">
                 Quiz Complete!
               </h2>
               <div className="text-lg text-gray-600 dark:text-gray-300">
@@ -92,19 +90,12 @@ export const Result = ({
                   {message} {emoji}
                 </p>
                 
-                <div className="mt-8 relative">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-8xl font-bold text-gray-100 dark:text-gray-800">
-                      {totalQuestions}
-                    </div>
+                <div className="mt-8 flex items-center justify-center">
+                  <div className="text-7xl font-bold text-primary">
+                    {score}
                   </div>
-                  <div className="relative flex items-center justify-center">
-                    <div className="text-8xl font-bold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
-                      {score}
-                    </div>
-                  </div>
-                  <div className="mt-2 text-xl text-gray-500 dark:text-gray-400">
-                    out of {totalQuestions} questions
+                  <div className="text-2xl text-gray-500 dark:text-gray-400 ml-2">
+                    / {totalQuestions}
                   </div>
                 </div>
                 
@@ -130,7 +121,7 @@ export const Result = ({
             <div className="pt-6 flex flex-col space-y-3">
               <Button
                 onClick={onRestart}
-                className="w-full bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 text-white py-6 rounded-xl transition-all duration-200 hover:shadow-lg"
+                className="w-full bg-primary hover:bg-primary/90 text-white py-6 rounded-xl transition-all duration-200 hover:shadow-lg"
               >
                 <ArrowBigLeft className="mr-2 h-5 w-5" />
                 Back to Dashboard

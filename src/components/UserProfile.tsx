@@ -31,25 +31,21 @@ export const UserProfile = ({ score, totalQuestions, grade, username, profilePic
   return (
     <div className="transform transition-all duration-300 hover:translate-y-[-4px]">
       <Card className="w-full max-w-xs bg-white dark:bg-gray-800 shadow-lg border-none overflow-hidden rounded-xl">
-        <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-primary via-purple-500 to-blue-500"></div>
         <CardHeader className="space-y-4 pt-6">
           <div className="flex justify-center">
-            <div className="relative">
-              <div className="absolute -inset-1 bg-gradient-to-r from-primary to-purple-600 rounded-full blur-sm opacity-70"></div>
-              <Avatar className="h-24 w-24 border-4 border-white dark:border-gray-800 relative">
-                <AvatarImage 
-                  src={profilePic}
-                  alt={`${username}'s avatar`}
-                />
-                <AvatarFallback className="bg-primary/10 dark:bg-primary/20">
-                  <UserRound className="h-12 w-12 text-primary" />
-                </AvatarFallback>
-              </Avatar>
-            </div>
+            <Avatar className="h-24 w-24 border-4 border-white dark:border-gray-800">
+              <AvatarImage 
+                src={profilePic}
+                alt={`${username}'s avatar`}
+              />
+              <AvatarFallback className="bg-primary/10 dark:bg-primary/20">
+                <UserRound className="h-12 w-12 text-primary" />
+              </AvatarFallback>
+            </Avatar>
           </div>
           <div className="text-center">
             <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Quiz Taker</p>
-            <p className="text-2xl font-bold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+            <p className="text-2xl font-bold text-primary">
               {username}
             </p>
             <div className="flex justify-center mt-3">
@@ -69,7 +65,7 @@ export const UserProfile = ({ score, totalQuestions, grade, username, profilePic
             </div>
             <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
               <div 
-                className="bg-gradient-to-r from-primary to-purple-600 h-2.5 rounded-full"
+                className="bg-primary h-2.5 rounded-full"
                 style={{ width: `${percentage}%` }}
               ></div>
             </div>
